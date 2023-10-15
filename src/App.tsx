@@ -4,6 +4,7 @@ import pdfDataJson from "../template.json"
 import { useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { format, isValid } from 'date-fns';
+import { workerInstance } from './worker/pdfWorkerLogic';
 
 function App() {
   const [inputNumber, setInputNumber] = useState(0);
@@ -61,37 +62,21 @@ function App() {
     setPdfData(updatedPdfData);
   }
 
-  const wasmPdfLogic = () => {
-    // @ts-ignore
-    window.pdfFileBlobURL = null;
-    // @ts-ignore
-    window.generatePDF = (data: any) => {
-      const blob = new Blob([data], {
-        type: 'application/pdf'
-      });
-      // @ts-ignore
-      if (window.pdfFileBlobURL !== null) {
-        // @ts-ignore
-        URL.revokeObjectURL(window.pdfFileBlobURL);
-      }
-      // @ts-ignore
-      window.pdfFileBlobURL = URL.createObjectURL(blob);
-      // for debugging purposes, open another window
-      // @ts-ignore
-      window.open(window.pdfFileBlobURL, "_blank");
-      // @ts-ignore
-      // window.location.href = window.pdfFileBlobURL;
-    }
+  const wasmPdfLogic = async() => {
+    
     console.log(window)
-    run(pdfData)
+    const pdfWebWorker = await workerInstance.runPdfLogic(pdfData);
+    window.open(pdfWebWorker, "_blank");
+    console.log(pdfWebWorker);
+    // run(pdfData)
   }
 
-  const createPdf = () => {
+  const createPdf = async() => {
     setTimeTaken(null);
     let start = Date.now();
     // Faker logic:
     fakerLogic();
-    wasmPdfLogic();
+    await wasmPdfLogic();
     let timeTaken = Date.now() - start;
     console.log("Total time taken : " + timeTaken + " milliseconds");
     setTimeTaken(timeTaken);
