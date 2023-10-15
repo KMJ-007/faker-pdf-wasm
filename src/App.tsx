@@ -86,6 +86,7 @@ function App() {
   return (
     <>
       <h1>Hello Karan</h1>
+      <h4>Simple POC for creating pdf using WASM in webworker</h4>
       <h3>Time Taken {timeTaken||"-"} milliseconds</h3>
       <div className="card">
         <input
