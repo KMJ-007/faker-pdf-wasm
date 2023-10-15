@@ -12,6 +12,7 @@ function App() {
   const fakerLogic = () => {
     const updatedPdfData = { ...pdfData };
 
+    let start = Date.now();
     for (let i = 0; i < inputNumber; i++) {
       const fakeRow:any = {
         "Inv-Dt.": fddmmyy(faker.date.anytime().toString()),
@@ -21,6 +22,7 @@ function App() {
         "LR.No": faker.number.int({ min: 0, max: 100 }),
         "LR.Date": fddmmyy(faker.date.anytime().toString())
       };
+
 
       // Add each fakeRow to the PDF template
       if (updatedPdfData.contents && updatedPdfData.contents.length > 0) {
@@ -53,6 +55,8 @@ function App() {
       }
 
     }
+    let timeTaken = Date.now() - start;
+    console.log("Total time taken for mapping logic : " + timeTaken + " milliseconds");
     console.log(updatedPdfData)
     setPdfData(updatedPdfData);
   }
