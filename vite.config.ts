@@ -14,7 +14,9 @@ export default defineConfig({
   ],
   worker:{
     plugins:[
-      comlink()
+      comlink(),
+      wasm(),
+      topLevelAwait(),
     ]
   }
 })
