@@ -73,6 +73,7 @@ function App() {
 
   const createPdf = async() => {
     setTimeTaken(null);
+    setPdfData(pdfDataJson);
     let start = Date.now();
     // Faker logic:
     fakerLogic();
